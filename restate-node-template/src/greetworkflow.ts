@@ -1,6 +1,6 @@
 import * as restate from "@restatedev/restate-sdk";
 
-// Define the greeting workflow
+// Define the greeting workflow - just an example to test, check orderWorkflow for more functionality  :)
 const greetWorkflow = restate.workflow({
   name: "greet-workflow",
   handlers: {
