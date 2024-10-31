@@ -1,5 +1,6 @@
 import * as restate from "@restatedev/restate-sdk";
 
+// Define a order workflow - further instructions about how to initialize go to main page and check the read me file :) 
 const orderWorkflow = restate.workflow({
   name: "order-workflow",
   handlers: {
