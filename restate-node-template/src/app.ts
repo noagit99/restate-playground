@@ -9,21 +9,21 @@ const orderWorkflow = restate.workflow({
       ctx.set("status", "Processing payment");
       await ctx.sleep(2000); // Simulate payment processing
       const paymentResult = "Payment processed";
-      
+
       // Step 2: Prepare shipment
       ctx.set("status", "Preparing shipment");
       await ctx.sleep(1500); // Simulate shipment preparation
       const shipmentResult = "Shipment ready";
-      
+
       // Step 3: Finalize order
       ctx.set("status", "Finalizing order");
       await ctx.sleep(1000); // Simulate final processing
-      
+
       return {
         orderId: req.orderId,
         paymentId: paymentId,
         status: "completed",
-        steps: [paymentResult, shipmentResult]
+        steps: [paymentResult, shipmentResult],
       };
     },
 
@@ -38,25 +38,38 @@ export type OrderWorkflow = typeof orderWorkflow;
 const orderService = restate.service({
   name: "orders",
   handlers: {
-    submitOrder: async (ctx: restate.ObjectContext, request: { orderId: string }) => {
+    submitOrder: async (
+      ctx: restate.ObjectContext,
+      request: { orderId: string }
+    ) => {
       const result = await ctx
-        .workflowClient<OrderWorkflow>({ name: "order-workflow" }, request.orderId)
+        .workflowClient<OrderWorkflow>(
+          { name: "order-workflow" },
+          request.orderId
+        )
         .run({ orderId: request.orderId });
       return result;
     },
 
-    checkOrderStatus: async (ctx: restate.ObjectContext, request: { orderId: string }) => {
+    checkOrderStatus: async (
+      ctx: restate.ObjectContext,
+      request: { orderId: string }
+    ) => {
       const status = await ctx
-        .workflowClient<OrderWorkflow>({ name: "order-workflow" }, request.orderId)
+        .workflowClient<OrderWorkflow>(
+          { name: "order-workflow" },
+          request.orderId
+        )
         .getStatus();
       return status;
-    }
-  }
+    },
+  },
 });
 
 // Update the endpoint binding to include both workflow and service
-restate.endpoint()
+restate
+  .endpoint()
   .bind(orderWorkflow)
   .bind(orderService)
   .listen(9080)
-  .then(() => console.log('Server running on port 9080'));
+  .then(() => console.log("Server running on port 9080"));
