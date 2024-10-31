@@ -19,7 +19,7 @@ Restate is a framework for building microservices and workflows in a unified way
      - `submitOrder`: Initiates the order workflow.
      - `checkOrderStatus`: Checks the status of an ongoing order.
     
-     - # Initialize the Project:
+## Initialize the Project:
 
 ### 1. Use the following command to download the Node template with a skeleton of a 1.1/1. Restate service and install its dependencies:
 
