@@ -1,4 +1,4 @@
-# Order Workflow with Restate
+# Order Workflow With Restate
 
 This project demonstrates a simple order processing workflow using the Restate SDK. It includes a workflow for handling orders and a service to interact with that workflow. The server runs on port 9080 and provides endpoints for submitting orders and checking their status.
 
